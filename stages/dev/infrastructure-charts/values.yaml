@@ -6,15 +6,15 @@ global:
       value: "admin.$STAGE-REPLACE_ME.iits.tech"
 argocd-config:
   namespace: argocd
+traefik:
+  namespace: routing
+  helmValues:
+    - name: "traefik.deployment.replicas"
+      value: "1"
 #storage-classes:
 #  namespace: storage
 #cert-manager:
 #  namespace: cert-manager
-#traefik:
-#  namespace: routing
-#  helmValues:
-#    - name: "traefik.deployment.replicas"
-#      value: "1"
 #admin-dashboard:
 #  namespace: admin
 #kafka:
