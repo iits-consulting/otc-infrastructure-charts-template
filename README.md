@@ -19,7 +19,7 @@ You should see that ArgoCD automaticly already installed infrastructure-charts,a
 ## Deploy some services
 - Inside stages/dev/values.yaml you will see some commented lines these are the descriptions which and where the helm charts should be deployed
 - First change the admin domain name to the name a gave you (according to your public EIP)
-- Uncomment please line number 14 and 15 and commit and push and see what happens on the ArgoCD UI if you press the refresh button on the infrastructure-charts project
+- Uncomment please line number 16 and 17 and commit and push and see what happens on the ArgoCD UI if you press the refresh button on the infrastructure-charts project
 - After the deployment try also to uncomment the other lines
 - Now press refresh on all the services inside the ArgoCD UI
 - After some times you should get some certificates, and you can access your admin domain
