@@ -19,5 +19,5 @@ argocd-config:
 #  namespace: admin
 #kafka:
 #  namespace: kafka
-basic-auth-gateway:
-  namespace: routing
+#basic-auth-gateway:
+#  namespace: routing
