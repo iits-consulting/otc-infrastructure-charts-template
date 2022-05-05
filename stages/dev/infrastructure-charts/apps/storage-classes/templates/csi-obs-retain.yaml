@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: csi-obs-retain
+parameters:
+  csi.storage.k8s.io/csi-driver-name: obs.csi.everest.io
+  csi.storage.k8s.io/fstype: s3fs
+  everest.io/obs-volume-type: STANDARD
+provisioner: everest-csi-provisioner
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

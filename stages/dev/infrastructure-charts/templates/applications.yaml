@@ -1,0 +1,46 @@
+{{- range $chartName,$chartValues := .Values }}
+{{- if ne $chartName "global"}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $chartName }}
+  namespace: argocd
+  annotations:
+    helmParametersChecksum: {{ (print (index $.Values $chartName).helmValues) | sha256sum}}-{{ print $.Values.global.helmValues | sha256sum}}
+spec:
+  project: {{ $.Values.global.projectName}}
+  revisionHistoryLimit: 3
+  {{- if (index $.Values $chartName).ignoreDifferences }}
+  ignoreDifferences:
+{{ toYaml (index $.Values $chartName).ignoreDifferences | indent 4 }}
+  {{- end }}
+  {{- if not (index $.Values $chartName).disableAutoSync }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+      - CreateNamespace=true
+  {{- end }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ (index $.Values $chartName).namespace }}
+  source:
+    path: {{$.Values.global.source.appsBasePath | replace "$STAGE" $.Values.global.stage }}/{{ $chartName }}
+    repoURL: {{ $.Values.global.source.repoURL }}
+    targetRevision: {{ $.Values.global.source.targetRevision }}
+    helm:
+      parameters:
+      {{- if $.Values.global.helmValues }}
+        {{- toYaml  $.Values.global.helmValues | nindent 10 | replace "$STAGE" $.Values.global.stage }}
+      {{- end }}
+      {{- if (index $.Values $chartName).terraformValues }}
+        {{- toYaml  (index $.Values $chartName).terraformValues | nindent 10 | replace "$STAGE" $.Values.global.stage }}
+      {{- end }}
+      {{- if (index $.Values $chartName).helmValues }}
+        {{- toYaml  (index $.Values $chartName).helmValues | nindent 10 | replace "$STAGE" $.Values.global.stage }}
+      {{- end }}
+---
+{{- end }}
+{{- end }}

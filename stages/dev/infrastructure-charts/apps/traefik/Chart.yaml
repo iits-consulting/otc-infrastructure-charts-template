@@ -1,0 +1,9 @@
+apiVersion: v2
+appVersion: 9.11.0
+dependencies:
+- name: traefik
+  repository: https://helm.traefik.io/traefik
+  version: 10.9.1
+description: traefik
+name: traefik
+version: 0.1.0-a5eb8f8b37935ec2f54a66b1dc5b0dd611db0bbd
