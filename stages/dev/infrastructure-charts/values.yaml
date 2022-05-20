@@ -3,7 +3,7 @@ global:
     - name: stage
       value: $STAGE
     - name: dns.host
-      value: "admin.ber-$STAGE.guardians-of-the-otc.com"
+      value: "admin.beri-$STAGE.guardians-of-the-otc.com"
 argocd-config:
   namespace: argocd
 cert-manager:
