@@ -7,7 +7,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`{{.Values.dns.hostAdmin}}`)
+      match: Host(`{{ .Values.dns.host }}`)
       middlewares:
         - name: basic-auth-gateway
       services:
@@ -16,4 +16,4 @@ spec:
   tls:
     secretName: {{.Values.dns.certificate.name}}
     domains:
-      - main: {{.Values.dns.hostAdmin}}
+      - main: {{ .Values.dns.host}}

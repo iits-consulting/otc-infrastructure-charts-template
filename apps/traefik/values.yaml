@@ -3,7 +3,6 @@ traefik:
     - "--global.checknewversion"
   additionalArguments:
     - "--ping"
-    - "--providers.kubernetesingress.ingressclass=traefik"
   api:
     dashboard: true
     insecure: true
@@ -23,7 +22,7 @@ traefik:
     spec:
       externalTrafficPolicy: Cluster
     annotations:
-      "kubernetes.io/elb.id": "SET_BY_ARGOCD_STAGE_VALUES"
+      "traefik.service.annotations.kubernetes.io/elb.id": "SET_BY_ARGOCD_STAGE_VALUES"
   ports:
     internalhttps:
       exposedPort: 8444
@@ -37,3 +36,6 @@ traefik:
       enabled: true
     kubernetesIngress:
       enabled: true
+dns:
+  #SET BY ARGOCD STAGE VALUES
+  host:

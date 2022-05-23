@@ -1,0 +1,17 @@
+apiVersion: v2
+dependencies:
+- condition: elasticsearch.enabled
+  name: elasticsearch
+  repository: https://helm.elastic.co
+  version: 7.12.0
+- condition: kibana.enabled
+  name: kibana
+  repository: https://helm.elastic.co
+  version: 7.12.0
+- condition: filebeat.enabled
+  name: filebeat
+  repository: https://helm.elastic.co
+  version: 7.12.0
+description: Awesome Logs
+name: elastic-stack
+version: 2.42.0-6aab4ef2895c3e4e9db9ff5b8216f94ec1dfa3a7

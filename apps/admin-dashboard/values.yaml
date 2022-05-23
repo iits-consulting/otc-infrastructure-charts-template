@@ -1,5 +1,6 @@
 dns:
-  hostAdmin: "SET_BY_ARGOCD"
+  host: "SET BY STAGE VALUES"
+  hostPrefixRegex: "HostRegexp(`{host:admin.+}`)"
 nginx:
   replicaCount: 1
   image:
@@ -26,17 +27,12 @@ nginx:
     </head>
     <body>
       <p>Tech Admin Board</p>
-    <ul>
-      <li><a href="argocd">ArgoCD</a></li>
-      <li><a href="akhq/ui/kafka/topic">akhq (kafka headquarter)</a></li>
-      <li><a href="dashboard/#/">Traefik Dashboard</a></li>
-    </ul>
-    <p>External Tools</p>
-    <ul>
-      <li><a href="https://regex101.com/r/58sIgx/2">Regex101</a></li>
-      <li><a href="https://jwt.io/">jwt.io</a></li>
-      <li><a href="https://crontab.guru/#*/10_*_*_*_*">Crontab Guru</a></li>
-      <li><a href="https://tools.letsdebug.net/cert-search?m=domain&q=cendo.app&d=168">Let's Debug Toolkit</a></li>
-    </ul>
+      <ul>
+        <li><a href="argocd">ArgoCD</a></li>
+        <li><a href="akhq/ui/kafka/topic">akhq (kafka headquarter)</a></li>
+        <li><a href="dashboard/#/">Traefik Dashboard</a></li>
+        <li><a href="kibana/app/discover">Kibana</a></li>
+        <li><a href="elasticsearch/">Elasticsearch</a></li>
+      </ul>
     </body>
     </html>

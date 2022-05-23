@@ -1,0 +1,38 @@
+{{- range $chartName,$chartValues := .Values }}
+{{- if ne $chartName "global"}}
+{{$appData := dict "chartName" $chartName "values" $.Values "files" $.Files}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $chartName }}
+  namespace: argocd
+  annotations:
+    helmParametersChecksum: {{ (print (index $.Values $chartName).helmValues) | sha256sum}}-{{ print $.Values.global.helmValues | sha256sum}}
+spec:
+  project: {{ $.Values.global.projectName}}
+  revisionHistoryLimit: 3
+  {{- if (index $.Values $chartName).ignoreDifferences }}
+  ignoreDifferences:
+{{ toYaml (index $.Values $chartName).ignoreDifferences | indent 4 }}
+  {{- end }}
+  {{- if not (index $.Values $chartName).disableAutoSync }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+      - CreateNamespace=true
+  {{- end }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ (index $.Values $chartName).namespace }}
+  source:
+    path: {{ include "appPath" $appData }}
+    repoURL: {{ $.Values.global.source.repoURL }}
+    targetRevision: {{ $.Values.global.source.targetRevision }}
+    helm:
+      parameters: {{ include "helmParameters" $appData}}
+---
+{{- end }}
+{{- end }}
