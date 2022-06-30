@@ -1,4 +1,5 @@
 global:
+  chartPath: "apps"
   helmValues:
     - name: stage
       value: $STAGE

@@ -27,7 +27,15 @@ spec:
     server: https://kubernetes.default.svc
     namespace: {{ (index $.Values $chartName).namespace }}
   source:
-    path: {{$.Values.global.source.appsBasePath | replace "$STAGE" $.Values.global.stage }}/{{ $chartName }}
+
+    {{- $localChartPath := print ($.Values.global.source.appsBasePath | replace "$STAGE" $.Values.global.stage) "/" $chartName }}
+    {{- $relativeLocalChartPath := (print (base $.Values.global.source.appsBasePath) "/" $chartName "/*") }}
+    {{ if $.Files.Glob  $relativeLocalChartPath -}}
+    path: {{ $localChartPath}}
+    {{- else -}}
+    path: {{ print $.Values.global.chartPath "/" $chartName}}
+    {{- end }}
+    
     repoURL: {{ $.Values.global.source.repoURL }}
     targetRevision: {{ $.Values.global.source.targetRevision }}
     helm:
