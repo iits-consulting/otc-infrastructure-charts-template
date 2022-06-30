@@ -1,4 +1,10 @@
-global:
+"global":
+  "projectName": "infrastructure-charts"
+  "source":
+    "appsBasePath": "stages/dev/infrastructure-charts/apps"
+    "repoURL": "https://gitlab.infrastructure-mdoc.iits.tech/mdoc/devops/infrastructure-charts.git"
+    "targetRevision": "main"
+  "stage": "dev"
   chartPath: "apps"
   helmValues:
     - name: stage
