@@ -2,7 +2,7 @@ apiVersion: v2
 dependencies:
 - name: kafka
   repository: https://charts.bitnami.com/bitnami
-  version: 12.9.5
+  version: 17.2.6
 - name: akhq
   repository: https://akhq.io/
   version: 0.2.0

@@ -1,5 +1,6 @@
 {{- range $chartName,$chartValues := .Values }}
 {{- if ne $chartName "global"}}
+{{$appData := dict "chartName" $chartName "values" $.Values "files" $.Files}}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -27,20 +28,11 @@ spec:
     server: https://kubernetes.default.svc
     namespace: {{ (index $.Values $chartName).namespace }}
   source:
-    path: {{$.Values.global.source.appsBasePath | replace "$STAGE" $.Values.global.stage }}/{{ $chartName }}
+    path: {{ include "appPath" $appData }}
     repoURL: {{ $.Values.global.source.repoURL }}
     targetRevision: {{ $.Values.global.source.targetRevision }}
     helm:
-      parameters:
-      {{- if $.Values.global.helmValues }}
-        {{- toYaml  $.Values.global.helmValues | nindent 10 | replace "$STAGE" $.Values.global.stage }}
-      {{- end }}
-      {{- if (index $.Values $chartName).terraformValues }}
-        {{- toYaml  (index $.Values $chartName).terraformValues | nindent 10 | replace "$STAGE" $.Values.global.stage }}
-      {{- end }}
-      {{- if (index $.Values $chartName).helmValues }}
-        {{- toYaml  (index $.Values $chartName).helmValues | nindent 10 | replace "$STAGE" $.Values.global.stage }}
-      {{- end }}
+      parameters: {{ include "helmParameters" $appData}}
 ---
 {{- end }}
 {{- end }}
