@@ -4,9 +4,9 @@ global:
     - name: stage
       value: $STAGE
     - name: dns.host
-      value: "$STAGE.guardians-of-the-otc.com"
+      value: "$STAGE.iits.tech"
     - name: dns.hostAdmin
-      value: "badmin.$STAGE.guardians-of-the-otc.com"
+      value: "badmin.$STAGE.iits.tech"
 argocd-config:
   namespace: argocd
   ignoreDifferences:
