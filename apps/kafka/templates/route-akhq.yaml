@@ -7,7 +7,7 @@ spec:
     - internalhttps
   routes:
     - kind: Rule
-      match: {{.Values.dns.hostPrefixRegex}} && PathPrefix(`/akhq`)
+      match: Host(`{{.Values.dns.hostAdmin}}`) && PathPrefix(`/akhq`)
       services:
         - kind: Service
           name: {{ .Release.Name }}-akhq

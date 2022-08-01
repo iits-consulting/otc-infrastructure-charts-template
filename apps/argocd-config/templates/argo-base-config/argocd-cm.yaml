@@ -33,4 +33,4 @@ data:
       ignoreDifferences: |
         jqPathExpressions:
           - .spec.duration
-  url: "https://{{.Values.dns.host}}{{.Values.dns.pathPrefix}}"
+  url: "https://{{.Values.dns.hostAdmin}}/argocd"

@@ -4,9 +4,15 @@ global:
     - name: stage
       value: $STAGE
     - name: dns.host
-      value: "admin.beri-$STAGE.guardians-of-the-otc.com"
+      value: "$STAGE.guardians-of-the-otc.com"
+    - name: dns.hostAdmin
+      value: "admin.$STAGE.guardians-of-the-otc.com"
 argocd-config:
   namespace: argocd
+  ignoreDifferences:
+    - jsonPointers:
+        - /data/server.secretkey
+      kind: Secret
 cert-manager:
   namespace: cert-manager
 traefik:

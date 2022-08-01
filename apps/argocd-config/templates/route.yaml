@@ -7,7 +7,7 @@ spec:
     - internalhttps
   routes:
     - kind: Rule
-      match: Host(`{{.Values.dns.host}}`) && PathPrefix(`{{.Values.dns.pathPrefix}}`)
+      match: Host(`{{.Values.dns.hostAdmin}}`) && PathPrefix(`/argocd`)
       services:
         - name: argocd-server
           port: 80

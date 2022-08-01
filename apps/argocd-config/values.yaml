@@ -1,7 +1,5 @@
 dns:
-  hostPrefixRegex: "HostRegexp(`{host:admin.+}`)"
-  pathPrefix: "/argocd"
-  host: "SET BY ARGOCD STAGE VALUES"
+  hostAdmin: "SET_BY_ARGOCD"
 configs:
   secret:
     # -- Annotations to be added to argocd-secret

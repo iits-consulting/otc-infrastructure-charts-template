@@ -4,8 +4,7 @@ upstream:
     port: 8444
 
 dns:
-  #SET BY ARGOCD STAGE VALUES
-  host:
+  hostAdmin: "SET_BY_ARGOCD"
   pathRule: "PathPrefix(`/`)"
   certificate:
     name: admin

@@ -4,11 +4,10 @@ metadata:
   name: traefik-ping
 spec:
   entryPoints:
-    - web
     - internalhttps
   routes:
-    - match: Host(`{{ .Values.dns.host }}`) && PathPrefix(`/ping`)
+    - match: "PathPrefix(`/ping`)"
       kind: Rule
       services:
-        - name: ping@internal
+        - name: api@internal
           kind: TraefikService

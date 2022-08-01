@@ -6,7 +6,7 @@ spec:
   entryPoints:
     - internalhttps
   routes:
-    - match: Host(`{{ .Values.dns.host }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+    - match: Host(`{{ .Values.dns.hostAdmin }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
       kind: Rule
       services:
         - name: api@internal

@@ -1,6 +1,5 @@
 dns:
-  host: "SET BY STAGE VALUES"
-  hostPrefixRegex: "HostRegexp(`{host:admin.+}`)"
+  hostAdmin: "SET BY STAGE VALUES"
 kafka:
   replicaCount: 3
   maxMessageBytes: _52428800
