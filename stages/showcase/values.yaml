@@ -6,7 +6,7 @@ global:
     - name: dns.host
       value: "$STAGE.iits.tech"
     - name: dns.hostAdmin
-      value: "badmin.$STAGE.iits.tech"
+      value: "admin.$STAGE.iits.tech"
 argocd-config:
   namespace: argocd
   ignoreDifferences:
