@@ -6,7 +6,7 @@ global:
     - name: dns.host
       value: "$STAGE.guardians-of-the-otc.com"
     - name: dns.hostAdmin
-      value: "admin.$STAGE.guardians-of-the-otc.com"
+      value: "badmin.$STAGE.guardians-of-the-otc.com"
 argocd-config:
   namespace: argocd
   ignoreDifferences:
