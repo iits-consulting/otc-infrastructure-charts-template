@@ -30,7 +30,7 @@ Now you are able to execute the `argo` command. Run the `argo` command. This wil
 1. In the `stages/dev/infrastructure-charts/values.yaml` set the value in `global.helmValues` for `dns.host` to the domain name which you received before.
 2. You need to commit this change to the git repository such that ArgoCD detects the changes and applies them.
 3. If you want to deploy some services you need to enter them in the `stages/dev/infrastructure-charts/values.yaml` in the same schema as the others. 
-   The charts representing these services have to be either in `/apps` or in `/stages/dev/infrastructure-charts/infrastructure-charts/apps`
+   The charts representing these services have to be either in `/apps` or in `/stages/dev/infrastructure-charts/apps`
 4. Press refresh on all the services inside the ArgoCD UI. After some times you should get some certificates, and you can access your admin domain
 
 ## Adjust services
