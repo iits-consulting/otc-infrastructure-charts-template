@@ -1,0 +1,3 @@
+#Stage specific information which override the default values.yaml
+global:
+  stage: "dev"

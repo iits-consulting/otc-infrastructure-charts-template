@@ -1,0 +1,82 @@
+#Information injected by terraform
+projectValues:
+  stage: "SET_BY_TERRAFORM"
+  traefikElbId: "SET_BY_TERRAFORM"
+  authElbID: "SET_BY_TERRAFORM"
+  adminDomain: "SET_BY_TERRAFORM"
+  storageClassKmsKeyId: "SET_BY_TERRAFORM"
+
+global:
+  helm:
+    #From which Helm repo the charts should be pulled
+    repoURL: https://charts.iits.tech/
+    # Default Helm Parameters which are injected into every chart
+    parameters:
+      - name: "ingressRoute.adminDomain"
+        value: "{{.Values.projectValues.adminDomain}}"
+
+charts:
+
+  argocd-config:
+    namespace: argocd
+    targetRevision: 0.2.5
+
+  otc-storage-classes:
+    namespace: storage-classes
+    targetRevision: 1.0.0
+    parameters:
+      - name: "kmsId"
+        value: "{{.Values.projectValues.storageClassKmsKeyId}}"
+
+  traefik:
+    namespace: routing
+    targetRevision: 10.22.0-after-proxy-v2
+    # Overrides default Helm Parameters
+    parameters:
+      - name: "traefik.deployment.replicas"
+        value: "1"
+      - name: "traefik.service.annotations.kubernetes\\.io\\/elb\\.id"
+        value: "{{.Values.projectValues.traefikElbId}}"
+
+  cert-manager:
+    namespace: cert-manager
+    targetRevision: 0.2.3
+    parameters:
+      - name: "clusterIssuer.http.email"
+        value: "my-mail@mail.com"
+
+  basic-auth-gateway:
+    namespace: routing
+    targetRevision: 0.2.5
+
+  kafka:
+    namespace: kafka
+    targetRevision: 17.2.6
+    parameters:
+      - name: "kafka.replicaCount"
+        value: "1"
+
+  # Remote chart from public helm repo
+  bitnami-kafka:
+    namespace: bitnami-kafka # Which namespace should the service be deployed
+    repoURL: "https://charts.bitnami.com/bitnami" # Helm repo URL by default it takes the helm repo URL from line 11
+    targetRevision: 17.2.6 # Helm Chart Repo URL
+    overrideChartName: kafka # You can override the chart name
+    disableAutoSync: false # If set to true the sync will not happen automatically, you need to do it manually over the UI
+    parameters:
+      - name: "kafka.replicaCount"
+        value: "1"
+
+  # Local chart for development purposes
+  akhq:
+    namespace: kafka
+    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
+    targetRevision: "main"
+    path: "local-charts/akhq"
+
+  # Override values with local values file
+  admin-dashboard:
+    namespace: admin
+    targetRevision: "14.1.0"
+    # values files needs to be inside this chart
+    valueFiles: "value-files/admin-dashboard/values.yaml"

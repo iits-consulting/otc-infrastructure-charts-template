@@ -1,0 +1,18 @@
+nginx:
+  mainPage: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Tech Admin Board</title>
+    </head>
+    <body>
+      <p>Tech Admin Board</p>
+      <ul>
+        <li><a href="argocd">ArgoCD</a></li>
+        <li><a href="akhq/ui/kafka/topic">akhq (kafka headquarter)</a></li>
+        <li><a href="dashboard/#/">Traefik Dashboard</a></li>
+        <li><a href="www.google.de">Google</a></li>
+      </ul>
+    </body>
+    </html>

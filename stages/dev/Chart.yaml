@@ -1,5 +1,0 @@
-apiVersion: v2
-name: dev
-description: infrastructure-charts for dev stage
-type: application
-version: 0.1.0

@@ -1,0 +1,60 @@
+{{- range $chartName,$chartValues := .Values.charts }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $chartName }}
+  namespace: {{ $.Release.Namespace}}
+  annotations:
+    parametersChecksum: {{ (print $chartValues.parameters) | sha256sum}}-{{ print $.Values.global | sha256sum}}
+spec:
+  project: {{ ($.Values.projectValues).projectName | default $.Release.Name }}
+  revisionHistoryLimit: 3
+     {{- if $chartValues.ignoreDifferences }}
+  ignoreDifferences:
+   {{ toYaml $chartValues.ignoreDifferences | indent 4 }}
+     {{- end }}
+     {{- if not $chartValues.disableAutoSync }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+         {{- if $chartValues.syncOptions }}
+         {{ $chartValues.syncOptions | toString}}
+         {{- end }}
+      - CreateNamespace=true
+     {{- end }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $chartValues.namespace }}
+  source:
+  {{- if $chartValues.path }}
+    path: {{ $chartValues.path }}
+  {{- else }}
+   {{- if $chartValues.overrideChartName }}
+    chart: {{ $chartValues.overrideChartName }}
+   {{- else}}
+    chart: {{ $chartName }}
+   {{- end}}
+  {{- end}}
+
+  {{- if $chartValues.repoURL }}
+    repoURL: {{ $chartValues.repoURL }}
+  {{- else}}
+    repoURL: {{ $.Values.global.helm.repoURL }}
+  {{- end}}
+
+    targetRevision: {{ $chartValues.targetRevision }}
+    helm:
+      passCredentials: true
+      {{- if $chartValues.valueFiles }}
+      values: {{ $.Files.Get $chartValues.valueFiles | toYaml | indent 8}}
+      {{- end}}
+      parameters:
+         {{- tpl ($.Values.global.helm.parameters | toYaml) $ | nindent 12}}
+       {{- if $chartValues.parameters }}
+         {{- tpl ($chartValues.parameters | toYaml) $ | nindent 12}}
+       {{- end }}
+---
+{{- end }}
