@@ -2,7 +2,6 @@
 projectValues:
   stage: "SET_BY_TERRAFORM"
   traefikElbId: "SET_BY_TERRAFORM"
-  authElbID: "SET_BY_TERRAFORM"
   adminDomain: "SET_BY_TERRAFORM"
   storageClassKmsKeyId: "SET_BY_TERRAFORM"
 
@@ -30,7 +29,7 @@ charts:
 
   traefik:
     namespace: routing
-    targetRevision: 10.22.0-after-proxy-v2
+    targetRevision: 10.22.0-after-proxy-v3
     # Overrides default Helm Parameters
     parameters:
       - name: "traefik.deployment.replicas"
@@ -47,7 +46,7 @@ charts:
 
   basic-auth-gateway:
     namespace: routing
-    targetRevision: 0.2.5
+    targetRevision: 0.3.0
 
   kafka:
     namespace: kafka
