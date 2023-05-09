@@ -74,8 +74,8 @@ charts:
     path: "local-charts/akhq"
 
   # Override values with local values file
-  admin-dashboard:
+  iits-admin-dashboard:
     namespace: admin
-    targetRevision: "14.1.0"
+    targetRevision: "1.0.2"
     # values files needs to be inside this chart
     valueFiles: "value-files/admin-dashboard/values.yaml"
