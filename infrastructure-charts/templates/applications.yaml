@@ -48,8 +48,8 @@ spec:
     targetRevision: {{ $chartValues.targetRevision }}
     helm:
       passCredentials: true
-      {{- if $chartValues.valueFiles }}
-      values: {{ $.Files.Get $chartValues.valueFiles | toYaml | indent 8}}
+      {{- if $chartValues.valueFile }}
+      values: {{ $.Files.Get $chartValues.valueFile | toYaml | indent 8}}
       {{- end}}
       parameters:
          {{- tpl ($.Values.global.helm.parameters | toYaml) $ | nindent 12}}
