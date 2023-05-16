@@ -1,11 +1,12 @@
 {{- range $chartName,$chartValues := .Values.charts }}
+{{- if ne $chartValues.enabled false }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ $chartName }}
-  namespace: {{ $.Release.Namespace}}
+  namespace: {{ $.Release.Namespace }}
   annotations:
-    parametersChecksum: {{ (print $chartValues.parameters) | sha256sum}}-{{ print $.Values.global | sha256sum}}
+    parametersChecksum: {{ (print $chartValues.parameters) | sha256sum}}-{{ print $.Values.global | sha256sum }}
 spec:
   project: {{ ($.Values.projectValues).projectName | default $.Release.Name }}
   revisionHistoryLimit: 3
@@ -20,9 +21,9 @@ spec:
       selfHeal: true
       allowEmpty: true
     syncOptions:
-         {{- if $chartValues.syncOptions }}
-         {{ $chartValues.syncOptions | toString}}
-         {{- end }}
+      {{- if $chartValues.syncOptions }}
+      {{ $chartValues.syncOptions | toString}}
+      {{- end }}
       - CreateNamespace=true
      {{- end }}
   destination:
@@ -57,4 +58,5 @@ spec:
          {{- tpl ($chartValues.parameters | toYaml) $ | nindent 12}}
        {{- end }}
 ---
+{{- end }}
 {{- end }}
