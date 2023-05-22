@@ -23,6 +23,9 @@ website: |-
           <a href="dashboard/" class="tile">
               <img src="https://raw.githubusercontent.com/docker-library/docs/a6cc2c5f4bc6658168f2a0abbb0307acaefff80e/traefik/logo.png" alt="Traefik Dashboard">
           </a>
+          <a href="policies/" class="tile">
+            <img src="https://boxboat.com/2021/12/06/secure-supply-chains-kyverno/featured.png" alt="Kyverno Policies">
+          </a>
           <a href="my-service/" class="tile">
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kotlin_Icon_2021.svg/2048px-Kotlin_Icon_2021.svg.png" alt="My Service">
           </a>

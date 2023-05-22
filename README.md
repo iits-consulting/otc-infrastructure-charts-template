@@ -138,9 +138,25 @@ resource "helm_release" "argocd" {
 
 For each team we recommend to create a own git repo and AppProject. Then you will be able to fully make use of RBAC.
 
-## (Optional) Try to deploy your own services
+## (Optional) Try out the setup
 
-Try to deploy your own services like nextcloud, prometheus-stack, keycloak or zitadel
+Now we go a little bit freestyle. Pick one of the topics below or choose one which you are interested in.
+Talk with your teammates and/or your tutor about it. Try to find the best way to implement it. 
+
+1. Setup a RDS database
+   - How would you create a RDS?
+   - How would you initialize the database with users,tables... ?
+   - How can you avoid to work with IPs? Think about the thing that you need to set inside the microservice the private ip everytime.
+
+2. Set kyverno from "audit" mode to "enforce" and try to deploy an unsecure image
+  - Which steps need to be done to make thirdparty helm images secure?
+  - How would you develop a pipeline to sign you images and verify all images inside kubernetes are signed with a specific key?
+
+3. Try to deploy your own nextcloud
+   - Where do i store my data? What kind of persistent storage should i choose?
+   - How do i backup my data?
+4. Try to deploy a prometheus-stack
+
 
 ## The End
 

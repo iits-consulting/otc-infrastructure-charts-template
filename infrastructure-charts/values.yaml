@@ -15,10 +15,9 @@ global:
         value: "{{.Values.projectValues.adminDomain}}"
 
 charts:
-
   argocd-config:
     namespace: argocd
-    targetRevision: 0.2.5
+    targetRevision: 0.3.0
 
   otc-storage-classes:
     namespace: storage-classes
@@ -29,7 +28,7 @@ charts:
 
   traefik:
     namespace: routing
-    targetRevision: 10.22.0-after-proxy-v3
+    targetRevision: 10.22.0-bugfix-traefik-annotations
     # Overrides default Helm Parameters
     parameters:
       - name: "traefik.deployment.replicas"
@@ -76,6 +75,6 @@ charts:
   # Override values with local values file
   iits-admin-dashboard:
     namespace: admin
-    targetRevision: "1.0.2"
+    targetRevision: "1.1.0"
     # values files needs to be inside this chart
     valueFiles: "value-files/admin-dashboard/values.yaml"
