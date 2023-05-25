@@ -7,6 +7,9 @@ metadata:
   namespace: {{ $.Release.Namespace }}
   annotations:
     parametersChecksum: {{ (print $chartValues.parameters) | sha256sum}}-{{ print $.Values.global | sha256sum }}
+    {{- if $chartValues.valueFile }}
+    valueFileChecksum: {{ (print ($.Files.Get $chartValues.valueFile)) | sha256sum }}
+    {{- end }}
 spec:
   project: {{ ($.Values.projectValues).projectName | default $.Release.Name }}
   revisionHistoryLimit: 3
@@ -49,8 +52,8 @@ spec:
     targetRevision: {{ $chartValues.targetRevision }}
     helm:
       passCredentials: true
-      {{- if $chartValues.valueFiles }}
-      values: {{ $.Files.Get $chartValues.valueFiles | toYaml | indent 8}}
+      {{- if $chartValues.valueFile }}
+      values: {{ $.Files.Get $chartValues.valueFile | toYaml | indent 8}}
       {{- end}}
       parameters:
          {{- tpl ($.Values.global.helm.parameters | toYaml) $ | nindent 12}}

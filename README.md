@@ -58,6 +58,11 @@ After deployment please update the admin dashboard (infrastructure-charts/values
 * /kibana
 * /elasticsearch
 
+If you don't want to search for icons you can see the solution here: https://github.com/iits-consulting/charts/blob/main/charts/iits-admin-dashboard/files/index.html
+
+If the routing works go to the Kyverno _/policies/#/_ there should be 2 violations. 
+Discuss with your team members how to fix this issue.
+
 ## How to change values of the charts
 
 You have 3 ways of changing the values of a chart

@@ -77,4 +77,4 @@ charts:
     namespace: admin
     targetRevision: "1.1.0"
     # values files needs to be inside this chart
-    valueFiles: "value-files/admin-dashboard/values.yaml"
+    valueFile: "value-files/admin-dashboard/values.yaml"
