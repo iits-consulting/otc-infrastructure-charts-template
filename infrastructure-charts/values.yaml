@@ -11,8 +11,7 @@ global:
     repoURL: https://charts.iits.tech/
     # Default Helm Parameters which are injected into every chart
     parameters:
-      - name: "ingressRoute.adminDomain"
-        value: "{{.Values.projectValues.adminDomain}}"
+      "ingressRoute.adminDomain": "{{.Values.projectValues.adminDomain}}"
 
 charts:
   argocd-config:
@@ -23,25 +22,21 @@ charts:
     namespace: storage-classes
     targetRevision: 1.0.0
     parameters:
-      - name: "kmsId"
-        value: "{{.Values.projectValues.storageClassKmsKeyId}}"
+      "kmsId": "{{.Values.projectValues.storageClassKmsKeyId}}"
 
   traefik:
     namespace: routing
     targetRevision: 10.22.0-bugfix-traefik-annotations
     # Overrides default Helm Parameters
     parameters:
-      - name: "traefik.deployment.replicas"
-        value: "1"
-      - name: "traefik.service.annotations.kubernetes\\.io\\/elb\\.id"
-        value: "{{.Values.projectValues.traefikElbId}}"
+      "traefik.deployment.replicas": "1"
+      "traefik.service.annotations.kubernetes\\.io\\/elb\\.id": "{{.Values.projectValues.traefikElbId}}"
 
   cert-manager:
     namespace: cert-manager
     targetRevision: 0.2.3
     parameters:
-      - name: "clusterIssuer.http.email"
-        value: "my-mail@mail.com"
+      "clusterIssuer.http.email": "my-mail@mail.com"
 
   basic-auth-gateway:
     namespace: routing
@@ -51,8 +46,7 @@ charts:
     namespace: kafka
     targetRevision: 17.2.6
     parameters:
-      - name: "kafka.replicaCount"
-        value: "1"
+      "kafka.replicaCount": "1"
 
   # Remote chart from public helm repo
   bitnami-kafka:
@@ -62,8 +56,7 @@ charts:
     overrideChartName: kafka # You can override the chart name
     disableAutoSync: false # If set to true the sync will not happen automatically, you need to do it manually over the UI
     parameters:
-      - name: "kafka.replicaCount"
-        value: "1"
+      "kafka.replicaCount": "1"
 
   # Local chart for development purposes
   akhq:

@@ -4,31 +4,36 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ $chartName }}
-  namespace: {{ $.Release.Namespace }}
+  namespace: {{ $.Release.Namespace}}
   annotations:
-    parametersChecksum: {{ (print $chartValues.parameters) | sha256sum}}-{{ print $.Values.global | sha256sum }}
+    parametersChecksum: {{ (print $chartValues.parameters) | sha256sum}}-{{ print $.Values.global | sha256sum}}
     {{- if $chartValues.valueFile }}
     valueFileChecksum: {{ (print ($.Files.Get $chartValues.valueFile)) | sha256sum }}
     {{- end }}
 spec:
   project: {{ ($.Values.projectValues).projectName | default $.Release.Name }}
   revisionHistoryLimit: 3
-     {{- if $chartValues.ignoreDifferences }}
+{{- if $chartValues.ignoreDifferences }}
   ignoreDifferences:
-   {{ toYaml $chartValues.ignoreDifferences | indent 4 }}
-     {{- end }}
-     {{- if not $chartValues.disableAutoSync }}
+{{ toYaml $chartValues.ignoreDifferences | indent 4 }}
+{{- end }}
+{{- if $chartValues.syncPolicy }}
+  syncPolicy:
+{{ toYaml $chartValues.syncPolicy | indent 4 }}
+{{- else if not $chartValues.disableAutoSync }}
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
       allowEmpty: true
     syncOptions:
-      {{- if $chartValues.syncOptions }}
-      {{ $chartValues.syncOptions | toString}}
-      {{- end }}
       - CreateNamespace=true
-     {{- end }}
+{{- if $chartValues.syncOptions }}
+{{ $chartValues.syncOptions | toString | indent 8 }}
+{{- end }}
+{{- else }}
+  syncPolicy: {}
+{{- end }}
   destination:
     server: https://kubernetes.default.svc
     namespace: {{ $chartValues.namespace }}
@@ -48,17 +53,25 @@ spec:
   {{- else}}
     repoURL: {{ $.Values.global.helm.repoURL }}
   {{- end}}
-
+    {{- if $chartValues.targetRevision }}
     targetRevision: {{ $chartValues.targetRevision }}
+    {{- else if $.Values.global.helm.targetRevision }}
+    targetRevision: {{ $.Values.global.helm.targetRevision }}
+    {{- end}}
     helm:
       passCredentials: true
       {{- if $chartValues.valueFile }}
-      values: {{ $.Files.Get $chartValues.valueFile | toYaml | indent 8}}
+      values: |
+      {{- include "tpl-values" (dict "values" ($.Files.Get $chartValues.valueFile) "context" $ ) | nindent 8 }}
       {{- end}}
       parameters:
-         {{- tpl ($.Values.global.helm.parameters | toYaml) $ | nindent 12}}
-       {{- if $chartValues.parameters }}
-         {{- tpl ($chartValues.parameters | toYaml) $ | nindent 12}}
+       {{- range $name,$value := $.Values.global.helm.parameters }}
+        - name: {{ $name }}
+          value: {{ tpl $value $ | quote }}
+       {{- end }}
+       {{- range $name,$value := $chartValues.parameters }}
+        - name: {{ $name }}
+          value: {{ tpl $value $ | quote }}
        {{- end }}
 ---
 {{- end }}
