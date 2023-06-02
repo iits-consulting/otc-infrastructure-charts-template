@@ -29,7 +29,9 @@ spec:
     syncOptions:
       - CreateNamespace=true
 {{- if $chartValues.syncOptions }}
-{{ $chartValues.syncOptions | toString | indent 8 }}
+{{- range $option := $chartValues.syncOptions }}
+      - {{ $option }}
+{{- end }}
 {{- end }}
 {{- else }}
   syncPolicy: {}

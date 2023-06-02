@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "projectValues": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "global": {
+      "type": "object",
+      "properties": {
+        "helm": {
+          "type": "object",
+          "properties": {
+            "repoURL": {
+              "type": "string"
+            },
+            "targetRevision": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      }
+    },
+    "charts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "namespace": {
+            "type": "string"
+          },
+          "repoURL": {
+            "type": "string"
+          },
+          "targetRevision": {
+            "type": "string"
+          },
+          "overrideChartName": {
+            "type": "string"
+          },
+          "disableAutoSync": {
+            "type": "boolean"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "path": {
+            "type": "string"
+          },
+          "valueFile": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

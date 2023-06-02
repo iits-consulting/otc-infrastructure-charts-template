@@ -6,8 +6,8 @@ Usage: {{ include "tpl-values" (dict "values" <value(s)> "context" $ ) }}
 */}}
 {{ define "tpl-values" }}
     {{- if kindIs "string" .values }}
-        {{- tpl .values .context | replace "'" "" }}
+        {{- tpl .values .context  }}
     {{- else }}
-        {{- tpl ( toYaml .values ) .context | replace "'" "" }}
+        {{- tpl ( toYaml .values ) .context }}
     {{- end }}
 {{- end }}
