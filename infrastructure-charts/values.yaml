@@ -26,7 +26,7 @@ charts:
 
   traefik:
     namespace: routing
-    targetRevision: 10.22.0-bugfix-traefik-annotations
+    targetRevision: 10.22.0-cleanup
     # Overrides default Helm Parameters
     parameters:
       "traefik.deployment.replicas": "1"
@@ -68,6 +68,6 @@ charts:
   # Override values with local values file
   iits-admin-dashboard:
     namespace: admin
-    targetRevision: "1.1.0"
+    targetRevision: "1.2.0"
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"
