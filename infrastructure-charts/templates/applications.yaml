@@ -10,6 +10,10 @@ metadata:
     {{- if $chartValues.valueFile }}
     valueFileChecksum: {{ (print ($.Files.Get $chartValues.valueFile)) | sha256sum }}
     {{- end }}
+  {{- if ne $chartValues.preventDelete true }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  {{- end }}
 spec:
   project: {{ ($.Values.projectValues).projectName | default $.Release.Name }}
   revisionHistoryLimit: 3

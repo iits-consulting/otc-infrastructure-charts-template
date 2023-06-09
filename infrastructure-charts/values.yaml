@@ -26,7 +26,7 @@ charts:
 
   traefik:
     namespace: routing
-    targetRevision: 10.22.0-cleanup
+    targetRevision: 10.22.0-internal-svc
     # Overrides default Helm Parameters
     parameters:
       "traefik.deployment.replicas": "1"
@@ -40,7 +40,7 @@ charts:
 
   basic-auth-gateway:
     namespace: routing
-    targetRevision: 0.3.0
+    targetRevision: 0.4.1
 
   kafka:
     namespace: kafka
