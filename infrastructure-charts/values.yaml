@@ -11,12 +11,15 @@ global:
     repoURL: https://charts.iits.tech/
     # Default Helm Parameters which are injected into every chart
     parameters:
-      "ingressRoute.adminDomain": "{{.Values.projectValues.adminDomain}}"
+      ingressRoute.adminDomain: "{{.Values.projectValues.adminDomain}}"
 
 charts:
   argocd-config:
     namespace: argocd
-    targetRevision: 0.3.0
+    targetRevision: 0.4.1
+    parameters:
+      ingressRoute.certificate.enabled: "true"
+      ingressRoute.entryPointName: "websecure"
 
   otc-storage-classes:
     namespace: storage-classes
@@ -40,11 +43,11 @@ charts:
 
   basic-auth-gateway:
     namespace: routing
-    targetRevision: 0.4.1
+    targetRevision: 0.5.1
 
   kafka:
     namespace: kafka
-    targetRevision: 17.2.6
+    targetRevision: 22.1.5
     parameters:
       "kafka.replicaCount": "1"
 
@@ -52,7 +55,7 @@ charts:
   bitnami-kafka:
     namespace: bitnami-kafka # Which namespace should the service be deployed
     repoURL: "https://charts.bitnami.com/bitnami" # Helm repo URL by default it takes the helm repo URL from line 11
-    targetRevision: 17.2.6 # Helm Chart Repo URL
+    targetRevision: 22.1.5 # Helm Chart Repo URL
     overrideChartName: kafka # You can override the chart name
     disableAutoSync: false # If set to true the sync will not happen automatically, you need to do it manually over the UI
     parameters:
