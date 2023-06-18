@@ -44,6 +44,8 @@ charts:
   basic-auth-gateway:
     namespace: routing
     targetRevision: 0.5.1
+    parameters:
+      "ingressRoute.domain": "{{.Values.projectValues.adminDomain}}"
 
   kafka:
     namespace: kafka
