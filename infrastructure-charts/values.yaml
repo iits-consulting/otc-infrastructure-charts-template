@@ -10,7 +10,7 @@ global:
     repoURL: https://charts.iits.tech/
     # Default Helm Parameters which are injected into every chart
     parameters:
-      ingressRoute.adminDomain: "{{.Values.projectValues.rootDomain}}"
+      ingressRoute.adminDomain: "admin.{{.Values.projectValues.rootDomain}}"
 
 charts:
   argocd-config:
