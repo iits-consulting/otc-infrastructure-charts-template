@@ -20,12 +20,6 @@ charts:
       ingressRoute.certificate.enabled: "true"
       ingressRoute.entryPointName: "websecure"
 
-  otc-storage-classes:
-    namespace: storage-classes
-    targetRevision: 1.0.0
-    parameters:
-      "kmsId": "{{.Values.projectValues.storageClassKmsKeyId}}"
-
   traefik:
     namespace: routing
     targetRevision: 10.22.0-internal-svc
