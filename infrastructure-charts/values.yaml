@@ -2,8 +2,7 @@
 projectValues:
   stage: "SET_BY_TERRAFORM"
   traefikElbId: "SET_BY_TERRAFORM"
-  adminDomain: "SET_BY_TERRAFORM"
-  storageClassKmsKeyId: "SET_BY_TERRAFORM"
+  rootDomain: "SET_BY_TERRAFORM"
 
 global:
   helm:
@@ -11,7 +10,7 @@ global:
     repoURL: https://charts.iits.tech/
     # Default Helm Parameters which are injected into every chart
     parameters:
-      ingressRoute.adminDomain: "{{.Values.projectValues.adminDomain}}"
+      ingressRoute.adminDomain: "{{.Values.projectValues.rootDomain}}"
 
 charts:
   argocd-config:
@@ -45,7 +44,7 @@ charts:
     namespace: routing
     targetRevision: 0.5.1
     parameters:
-      "ingressRoute.domain": "{{.Values.projectValues.adminDomain}}"
+      "ingressRoute.domain": "admin.{{.Values.projectValues.rootDomain}}"
 
   kafka:
     namespace: kafka
