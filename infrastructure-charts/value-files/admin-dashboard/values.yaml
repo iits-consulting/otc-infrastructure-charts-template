@@ -15,7 +15,7 @@ website: |-
       <h1>Tech Admin Board</h1>
       <div class="tiles">
           <a href="argocd" class="tile">
-              <img src="https://cncf-branding.netlify.app/img/projects/argo/stacked/color/argo-stacked-color.png" alt="ArgoCD">
+              <img src="https://landscape.cncf.io/logos/argo.svg" alt="ArgoCD">
           </a>
           <a href="akhq/ui/kafka/topic" class="tile">
               <img src="https://kafka.apache.org/images/apache-kafka.png" alt="akhq (kafka headquarter)">

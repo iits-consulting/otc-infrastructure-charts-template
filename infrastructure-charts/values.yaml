@@ -3,6 +3,7 @@ projectValues:
   stage: "SET_BY_TERRAFORM"
   traefikElbId: "SET_BY_TERRAFORM"
   rootDomain: "SET_BY_TERRAFORM"
+  basicAuthPassword: "SET_BY_TERRAFORM"
 
 global:
   helm:
@@ -32,13 +33,14 @@ charts:
     namespace: cert-manager
     targetRevision: 0.2.3
     parameters:
-      "clusterIssuer.http.email": "my-mail@mail.com"
+      clusterIssuer.http.email: "my-mail@mail.com"
 
   basic-auth-gateway:
     namespace: routing
-    targetRevision: 0.5.1
+    targetRevision: 0.6.1
     parameters:
-      "ingressRoute.domain": "admin.{{.Values.projectValues.rootDomain}}"
+      ingressRoute.domain: "admin.{{.Values.projectValues.rootDomain}}"
+      credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
 
   kafka:
     namespace: kafka
