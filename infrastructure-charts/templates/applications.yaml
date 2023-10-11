@@ -47,11 +47,15 @@ spec:
   {{- if $chartValues.path }}
     path: {{ $chartValues.path }}
   {{- else }}
-   {{- if $chartValues.overrideChartName }}
+    {{- if $chartValues.overrideChartName }}
     chart: {{ $chartValues.overrideChartName }}
-   {{- else}}
+    {{- else}}
+    {{- if $.Values.global.helm.path }}
+    path: {{ $.Values.global.helm.path }}
+    {{- else }}
     chart: {{ $chartName }}
-   {{- end}}
+    {{- end}}
+   {{- end }}
   {{- end}}
 
   {{- if $chartValues.repoURL }}
