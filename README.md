@@ -58,7 +58,7 @@ After deployment please update the admin dashboard (infrastructure-charts/values
 * /kibana
 * /elasticsearch
 
-If you don't want to search for icons you can see the solution here: https://github.com/iits-consulting/charts/blob/main/charts/iits-admin-dashboard/files/index.html
+If you don't want to search for icons you can see the solution here: https://github.com/iits-consulting/charts/blob/main/charts/iits-admin-dashboard/values.yaml
 
 ## How to change values of the charts
 
@@ -150,13 +150,15 @@ Talk with your teammates and/or your tutor about it. Try to find the best way to
    - How would you initialize the database with users,tables... ?
    - How can you avoid to work with IPs? Think about the thing that you need to set inside the microservice the private ip everytime.
 
-2. Set kyverno from "audit" mode to "enforce" and try to deploy an unsecure image
+2. Try to deploy a third party helm chart like bitnami-kafka
+  - Attention !!! only secured and hardened images are allowed to run inside our cluster the container could fail because of maybe root access is required
   - Which steps need to be done to make thirdparty helm images secure?
   - How would you develop a pipeline to sign you images and verify all images inside kubernetes are signed with a specific key?
 
 3. Try to deploy your own nextcloud
    - Where do i store my data? What kind of persistent storage should i choose?
    - How do i backup my data?
+
 4. Try to deploy a prometheus-stack
 
 

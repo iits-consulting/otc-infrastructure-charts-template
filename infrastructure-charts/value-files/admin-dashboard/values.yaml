@@ -1,35 +1,18 @@
-website: |-
-  <!DOCTYPE html>
-  <html lang="en">
-  
-  <head>
-      <meta charset="UTF-8">
-      <title>Tech Admin Board</title>
-      <link rel="stylesheet" href="styles.css"> <!-- Link the new CSS file -->
-  </head>
-  
-  <body>
-  <div class="container">
-      <img class="logo" src="https://iits-consulting.de/wp-content/uploads/2021/08/iits-logo-2021-red-square-xl.png"
-           alt="IITS Consulting Logo"/>
-      <h1>Tech Admin Board</h1>
-      <div class="tiles">
-          <a href="argocd" class="tile">
-              <img src="https://landscape.cncf.io/logos/argo.svg" alt="ArgoCD">
-          </a>
-          <a href="akhq/ui/kafka/topic" class="tile">
-              <img src="https://kafka.apache.org/images/apache-kafka.png" alt="akhq (kafka headquarter)">
-          </a>
-          <a href="dashboard/" class="tile">
-              <img src="https://raw.githubusercontent.com/docker-library/docs/a6cc2c5f4bc6658168f2a0abbb0307acaefff80e/traefik/logo.png" alt="Traefik Dashboard">
-          </a>
-          <a href="policies/" class="tile">
-            <img src="https://boxboat.com/2021/12/06/secure-supply-chains-kyverno/featured.png" alt="Kyverno Policies">
-          </a>
-          <a href="my-service/" class="tile">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Kotlin_Icon_2021.svg/2048px-Kotlin_Icon_2021.svg.png" alt="My Service">
-          </a>
-      </div>
-  </div>
-  </body>
-  </html>
+defaultDashboard:
+  tiles:
+    dashboard:
+      href: "dashboard/"
+      imgSrc: "https://raw.githubusercontent.com/docker-library/docs/a6cc2c5f4bc6658168f2a0abbb0307acaefff80e/traefik/logo.png"
+      imgAlt: "Traefik Dashboard"
+    argocd:
+      href: "argocd"
+      imgSrc: "argo.svg"
+      imgAlt: "ArgoCD"
+    kyverno:
+      href: "policies"
+      imgSrc: "https://cdn.shopify.com/s/files/1/1300/8977/collections/kyverno_480x480.png"
+      imgAlt: "Kyverno"
+    akhq:
+      href: "akhq/ui/"
+      imgSrc: "https://cdn.icon-icons.com/icons2/2699/PNG/512/apache_kafka_vertical_logo_icon_169585.png"
+      imgAlt: "akhq (kafka headquarter)"

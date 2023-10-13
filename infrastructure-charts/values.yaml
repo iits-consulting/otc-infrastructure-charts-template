@@ -43,14 +43,14 @@ charts:
     parameters:
       "kafka.replicaCount": "1"
   # Remote chart from public helm repo
-  bitnami-kafka:
-    namespace: bitnami-kafka # Which namespace should the service be deployed
-    repoURL: "https://charts.bitnami.com/bitnami" # Helm repo URL by default it takes the helm repo URL from line 11
-    targetRevision: 22.1.5
-    overrideChartName: kafka # You can override the chart name
-    disableAutoSync: false # If set to true the sync will not happen automatically, you need to do it manually over the UI
-    parameters:
-      "kafka.replicaCount": "1"
+#  bitnami-kafka:
+#    namespace: bitnami-kafka # Which namespace should the service be deployed
+#    repoURL: "https://charts.bitnami.com/bitnami" # Helm repo URL by default it takes the helm repo URL from line 11
+#    targetRevision: 22.1.5
+#    overrideChartName: kafka # You can override the chart name
+#    disableAutoSync: false # If set to true the sync will not happen automatically, you need to do it manually over the UI
+#    parameters:
+#      "kafka.replicaCount": "1"
   # Local chart for development purposes
   akhq:
     namespace: kafka
@@ -60,6 +60,6 @@ charts:
   # Override values with local values file
   iits-admin-dashboard:
     namespace: admin
-    targetRevision: 1.2.1
+    targetRevision: 1.3.0
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"
