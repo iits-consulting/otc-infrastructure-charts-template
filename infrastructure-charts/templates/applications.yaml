@@ -10,7 +10,10 @@ metadata:
     {{- if $chartValues.valueFile }}
     valueFileChecksum: {{ (print ($.Files.Get $chartValues.valueFile)) | sha256sum }}
     {{- end }}
-  {{- if ne $chartValues.preventDelete true }}
+    { { - with $chartValues.annotations } }
+    { { - tpl (toYaml .) $ | nindent 4 } }
+    { { - end } }
+  {{- if eq $chartValues.preventDelete false }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   {{- end }}
@@ -57,6 +60,7 @@ spec:
     {{- end}}
    {{- end }}
   {{- end}}
+
 
   {{- if $chartValues.repoURL }}
     repoURL: {{ $chartValues.repoURL }}
