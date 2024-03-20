@@ -1,7 +1,6 @@
 #Information injected by terraform
 projectValues:
   stage: "SET_BY_TERRAFORM"
-  traefikElbId: "SET_BY_TERRAFORM"
   rootDomain: "SET_BY_TERRAFORM"
   basicAuthPassword: "SET_BY_TERRAFORM"
 global:
@@ -11,15 +10,9 @@ global:
     # Default Helm Parameters which are injected into every chart
     parameters:
       ingressRoute.adminDomain: "admin.{{.Values.projectValues.rootDomain}}"
+      ingressRoute.host: "admin.{{.Values.projectValues.rootDomain}}"
       ingressRoute.rootDomain: "{{.Values.projectValues.rootDomain}}"
 charts:
-  cert-manager:
-    namespace: cert-manager
-    targetRevision: 1.0.0
-    annotations:
-      argocd.argoproj.io/sync-wave: "-30"
-    parameters:
-      clusterIssuer.http.email: "my-mail@mail.com"
   argocd-config:
     namespace: argocd
     targetRevision: 0.5.0
@@ -28,15 +21,6 @@ charts:
     parameters:
       ingressRoute.certificate.enabled: "true"
       ingressRoute.entryPointName: "websecure"
-  traefik:
-    namespace: routing
-    targetRevision: 21.1.0
-    # Overrides default Helm Parameters
-    annotations:
-      argocd.argoproj.io/sync-wave: "-10"
-    parameters:
-      "traefik.deployment.replicas": "1"
-      "traefik.service.annotations.kubernetes\\.io\\/elb\\.id": "{{.Values.projectValues.traefikElbId}}"
   basic-auth-gateway:
     namespace: routing
     targetRevision: 0.6.1
@@ -45,7 +29,7 @@ charts:
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
   kafka:
     namespace: kafka
-    targetRevision: 22.1.5
+    targetRevision: 22.1.6
     parameters:
       "kafka.replicaCount": "1"
   # Remote chart from public helm repo
@@ -69,3 +53,5 @@ charts:
     targetRevision: 1.3.0
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"
+    parameters:
+      deployment.replicaCount: "1"

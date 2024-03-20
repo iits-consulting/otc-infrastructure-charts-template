@@ -1,0 +1,14 @@
+#!/bin/sh
+echo "Performing helm lint before push..."
+lint_output=$(helm lint infrastructure-charts)
+lint_command=$(helm lint infrastructure-charts)
+lint_command_status=$?
+
+if [ $lint_command_status -eq 0 ]; then
+  echo "Helm lint completed successfully. You can push."
+  exit 0
+else
+  echo "$lint_output"
+  echo "Helm lint failed. Please fix your Helm chart."
+  exit 1
+fi

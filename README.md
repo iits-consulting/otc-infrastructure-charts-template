@@ -34,24 +34,24 @@ If all services are up and running you should also be able to access your admin 
 
 You have 3 options to deploy some services.
 
-1. Chart from a global helm chart registry which is configured in line number 12 (in this example we use https://charts.iits.tech/). 
-   Charts deployed like this: 
-   _argocd-config_, _otc-storage-classes_, _traefik_, _cert-manager_, _basic-auth-gateway_, _kafka_, _admin-dashboard_
+1. Chart from a global helm chart registry which is configured in line number 12 (in this example we use https://charts.iits.tech/).
+   Charts deployed like this:
+   _argocd-config_, _basic-auth-gateway_, _kafka_, _admin-dashboard_
 
-     
-2. Chart from a non global helm chart registry. Charts deployed like this: _bitnami-kafka_ 
+
+2. Chart from a non global helm chart registry. Charts deployed like this: _bitnami-kafka_
 3. Chart which resides inside this git repository. Charts deployed like this: _akhq_
 
 
 Let's deploy some additional chart. Now it is time for you deploy some charts/services by yourself.
-In this example we will install an elastic stack (kibana/elasticsearch/filebeat) 
-   * Open _infrastructure-charts/values.yaml_
-   * Add a new service like this:
-     ```yaml
-     elastic-stack:
-       namespace: monitoring
-       targetRevision: "7.17.3-route-bugfix"
-     ```
+In this example we will install an elastic stack (kibana/elasticsearch/filebeat)
+* Open _infrastructure-charts/values.yaml_
+* Add a new service like this:
+  ```yaml
+  elastic-stack:
+    namespace: monitoring
+    targetRevision: "7.17.3-route-bugfix"
+  ```
 You need to commit and push this change now. Argo detects the changes and applies them after around 2-3 minutes.
 
 After deployment please update the admin dashboard (infrastructure-charts/values-files/admin-dashboard/values.yaml) with the new links.
@@ -65,14 +65,14 @@ If you don't want to search for icons you can see the solution here: https://git
 You have 3 ways of changing the values of a chart
 
 1. You change the values inside the remote/local helm chart itself
-2. You set parameters inside the "infrastructure-charts/values.yaml" like shown between line number 55 till 57. 
+2. You set parameters inside the "infrastructure-charts/values.yaml" like shown between line number 55 till 57.
    We would recommend this approach if you need to template values or if you have just a few values which needs to be set.
 3. You specify the location of a _values.yaml_ file like shown on line number 82.
    We would recommend this approach only if you have a lot of static values which are not stage dependent.
 
-Now let's change some values: 
+Now let's change some values:
 
-1. Please change inside `/infrastructure-charts/values.yaml` the number of traefik replicas from 1 to 2
+1. Please change inside `/infrastructure-charts/values.yaml` the number of replicaCount for iits-admin-dashboard from 1 to 2
 2. Commit and push your changes
 3. Check the service in the ArgoCD UI and verify that it scaled up
 
@@ -90,7 +90,6 @@ resource "helm_release" "argocd" {
           projectValues = {
             # Set this to enable stage $STAGE-values.yaml
             stage        = var.stage
-            traefikElbId = module.terraform_secrets_from_encrypted_s3_bucket.secrets["elb_id"]
             adminDomain  = "admin.${var.domain_name}"
             storageClassKmsKeyId = module.terraform_secrets_from_encrypted_s3_bucket.secrets["storage_class_kms_key_id"]
           }
@@ -102,7 +101,7 @@ resource "helm_release" "argocd" {
 ```
 All _projectValues_ variables are given over to argo, and we can reuse them here.
 
-In this example the _stage_, _traefikElbId_, _adminDomain_ _storageClassKmsKeyId_ variables are handed over to argo.
+In this example the _stage_, _adminDomain_ _storageClassKmsKeyId_ variables are handed over to argo.
 
 ## How to integrate Business Apps
 
@@ -112,29 +111,29 @@ In this example the _stage_, _traefikElbId_, _adminDomain_ _storageClassKmsKeyId
 4. Register the _app-charts_ as a App of Apps project inside terraform like this:
 ```terraform
 resource "helm_release" "argocd" {
-  ...
-  values                = [
-    yamlencode({
+   ...
+values                = [
+   yamlencode({
       projects = {
-        infrastructure-charts = {
-        ....
-        }
-        app-charts = {
-          projectValues = {
-            # Set this to enable stage $STAGE-values.yaml
-            stage        = var.stage
-            appDomain  = "${var.domain_name}"
-          }
+         infrastructure-charts = {
+            ....
+         }
+         app-charts = {
+            projectValues = {
+               # Set this to enable stage $STAGE-values.yaml
+               stage        = var.stage
+               appDomain  = "${var.domain_name}"
+            }
 
-          git = {
-            password = var.git_token
-            repoUrl  = "https://my-git-repo-for-apps.git"
-          }
-        }
-    }
-    )
-  ]
-}
+            git = {
+               password = var.git_token
+               repoUrl  = "https://my-git-repo-for-apps.git"
+            }
+         }
+      }
+      )
+   ]
+   }
 ```
 5. Argo will now do the same with the _app-charts_ as with the _infrastructure-charts_
 
@@ -143,7 +142,7 @@ For each team we recommend to create a own git repo and AppProject. Then you wil
 ## (Optional) Try out the setup
 
 Now we go a little bit freestyle. Pick one of the topics below or choose one which you are interested in.
-Talk with your teammates and/or your tutor about it. Try to find the best way to implement it. 
+Talk with your teammates and/or your tutor about it. Try to find the best way to implement it.
 
 1. Setup a RDS database
    - How would you create a RDS?
@@ -151,9 +150,9 @@ Talk with your teammates and/or your tutor about it. Try to find the best way to
    - How can you avoid to work with IPs? Think about the thing that you need to set inside the microservice the private ip everytime.
 
 2. Try to deploy a third party helm chart like bitnami-kafka
-  - Attention !!! only secured and hardened images are allowed to run inside our cluster the container could fail because of maybe root access is required
-  - Which steps need to be done to make thirdparty helm images secure?
-  - How would you develop a pipeline to sign you images and verify all images inside kubernetes are signed with a specific key?
+- Attention !!! only secured and hardened images are allowed to run inside our cluster the container could fail because of maybe root access is required
+- Which steps need to be done to make thirdparty helm images secure?
+- How would you develop a pipeline to sign you images and verify all images inside kubernetes are signed with a specific key?
 
 3. Try to deploy your own nextcloud
    - Where do i store my data? What kind of persistent storage should i choose?
