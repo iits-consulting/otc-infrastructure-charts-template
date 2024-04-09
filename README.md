@@ -65,9 +65,23 @@ If you don't want to search for icons you can see the solution here: https://git
 You have 3 ways of changing the values of a chart
 
 1. You change the values inside the remote/local helm chart itself
-2. You set parameters inside the "infrastructure-charts/values.yaml" like shown between line number 55 till 57.
+2. You set parameters inside the "infrastructure-charts/values.yaml" like shown here:
+   ```yaml
+   kafka:
+     namespace: kafka
+     targetRevision: 22.1.6
+     parameters:
+       "kafka.replicaCount": "1"
+   ```
    We would recommend this approach if you need to template values or if you have just a few values which needs to be set.
-3. You specify the location of a _values.yaml_ file like shown on line number 82.
+3. You specify the location of a _values.yaml_ file like shown here:
+   ```yaml
+   iits-admin-dashboard:
+      namespace: admin
+      targetRevision: 1.4.2
+      # values files needs to be inside this chart
+      valueFile: "value-files/admin-dashboard/values.yaml"
+   ```
    We would recommend this approach only if you have a lot of static values which are not stage dependent.
 
 Now let's change some values:
@@ -90,8 +104,7 @@ resource "helm_release" "argocd" {
           projectValues = {
             # Set this to enable stage $STAGE-values.yaml
             stage        = var.stage
-            adminDomain  = "admin.${var.domain_name}"
-            storageClassKmsKeyId = module.terraform_secrets_from_encrypted_s3_bucket.secrets["storage_class_kms_key_id"]
+            rootDomain  = var.domain_name
           }
       ...
     }
@@ -101,7 +114,7 @@ resource "helm_release" "argocd" {
 ```
 All _projectValues_ variables are given over to argo, and we can reuse them here.
 
-In this example the _stage_, _adminDomain_ _storageClassKmsKeyId_ variables are handed over to argo.
+In this example the _stage_ or _rootDomain_ variables are handed over to argo.
 
 ## How to integrate Business Apps
 
@@ -145,20 +158,31 @@ Now we go a little bit freestyle. Pick one of the topics below or choose one whi
 Talk with your teammates and/or your tutor about it. Try to find the best way to implement it.
 
 1. Setup a RDS database
-   - How would you create a RDS?
+   - How would you create a RDS? Is there maybe a repository/website which can help you with that?
    - How would you initialize the database with users,tables... ?
    - How can you avoid to work with IPs? Think about the thing that you need to set inside the microservice the private ip everytime.
 
-2. Try to deploy a third party helm chart like bitnami-kafka
-- Attention !!! only secured and hardened images are allowed to run inside our cluster the container could fail because of maybe root access is required
-- Which steps need to be done to make thirdparty helm images secure?
-- How would you develop a pipeline to sign you images and verify all images inside kubernetes are signed with a specific key?
+2. Try to deploy a third party helm chart like keycloak
+   - You need to everytime think about topics like this:
+      - Do i need forward-auth?
+      - Do i need persistence? If yes where do i store my data ? file-storage or databases?
+      - How can configure Keycloak? No we will not do it manually !
 
-3. Try to deploy your own nextcloud
-   - Where do i store my data? What kind of persistent storage should i choose?
-   - How do i backup my data?
+3. Try to deploy a prometheus-stack
+   - You need to everytime think about topics like this:
+      - Do i need forward-auth?
+      - Do i need persistence? If yes where do i store my data ? file-storage or databases?
+      - How can configure Keycloak? No we will not do it manually !
 
-4. Try to deploy a prometheus-stack
+4. Try to deploy a third party helm chart like elastic-stack
+   - You need to everytime think about topics like this:
+      - Do i need forward-auth?
+      - Do i need persistence? If yes where do i store my data ? file-storage or databases?
+      - How can configure Keycloak? No we will not do it manually !
+
+5. Security
+   - Take a look at kyverno and think about how to add more security to your cluster
+   - Which steps need to be done to make thirdparty helm images secure? (hint take a look at iits charts)
 
 
 ## The End

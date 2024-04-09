@@ -9,23 +9,19 @@ global:
     repoURL: https://charts.iits.tech/
     # Default Helm Parameters which are injected into every chart
     parameters:
-      ingressRoute.adminDomain: "admin.{{.Values.projectValues.rootDomain}}"
-      ingressRoute.host: "admin.{{.Values.projectValues.rootDomain}}"
-      ingressRoute.rootDomain: "{{.Values.projectValues.rootDomain}}"
+      ingress.adminDomain: "admin.{{.Values.projectValues.rootDomain}}"
+      ingress.host: "admin.{{.Values.projectValues.rootDomain}}"
+      ingress.rootDomain: "{{.Values.projectValues.rootDomain}}"
 charts:
   argocd-config:
     namespace: argocd
-    targetRevision: 0.5.0
+    targetRevision: 0.7.0
     annotations:
       argocd.argoproj.io/sync-wave: "-20"
-    parameters:
-      ingressRoute.certificate.enabled: "true"
-      ingressRoute.entryPointName: "websecure"
-  basic-auth-gateway:
+  basic-auth-forward-auth:
     namespace: routing
-    targetRevision: 0.6.1
+    targetRevision: 0.1.0
     parameters:
-      ingressRoute.domain: "admin.{{.Values.projectValues.rootDomain}}"
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
   kafka:
     namespace: kafka
@@ -45,13 +41,34 @@ charts:
   akhq:
     namespace: kafka
     repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
-    targetRevision: "main"
+    targetRevision: "forward-auth"
     path: "local-charts/akhq"
   # Override values with local values file
   iits-admin-dashboard:
     namespace: admin
-    targetRevision: 1.4.2
+    targetRevision: 1.5.0
+    disableAutoSync: true
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"
     parameters:
-      deployment.replicaCount: "1"
+      deployment.replicaCount: "2"
+  elasticsearch:
+    namespace: monitoring
+    targetRevision: 8.7.0
+    parameters:
+      ingress.host: "admin.{{.Values.projectValues.rootDomain}}"
+      backup.enabled: "false"
+  prometheus-stack:
+    namespace: monitoring
+    targetRevision: 56.22.1
+    ignoreDifferences:
+      - jsonPointers:
+          - /imagePullSecrets
+        kind: ServiceAccount
+    syncOptions:
+      - ServerSideApply=true
+    parameters:
+      global.alertmanager.host: "admin.{{.Values.projectValues.rootDomain}}"
+      global.prometheus.host: "admin.{{.Values.projectValues.rootDomain}}"
+      global.grafana.host: "admin.{{.Values.projectValues.rootDomain}}"
+      prometheusStack.grafana.adminPassword: "hgsp21addf"

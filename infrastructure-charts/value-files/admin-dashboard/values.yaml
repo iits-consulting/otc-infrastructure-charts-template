@@ -3,12 +3,8 @@ deployment:
     runAsUser: 1001
 ingress:
   host: "admin.{{.Values.projectValues.rootDomain}}"
-  defaultIngress:
-    tls:
-      enabled: "false"
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "after-proxy"
-    traefik.ingress.kubernetes.io/router.tls: "false"
+    traefik.ingress.kubernetes.io/router.middlewares: routing-oidc-forward-auth@kubernetescrd
 defaultDashboard:
   tiles:
     kibana:
@@ -26,4 +22,6 @@ defaultDashboard:
     alertManager:
       enabled: "false"
     logout:
+      enabled: "false"
+    keycloak:
       enabled: "false"
