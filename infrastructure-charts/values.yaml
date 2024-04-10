@@ -52,23 +52,3 @@ charts:
     valueFile: "value-files/admin-dashboard/values.yaml"
     parameters:
       deployment.replicaCount: "2"
-  elasticsearch:
-    namespace: monitoring
-    targetRevision: 8.7.0
-    parameters:
-      ingress.host: "admin.{{.Values.projectValues.rootDomain}}"
-      backup.enabled: "false"
-  prometheus-stack:
-    namespace: monitoring
-    targetRevision: 56.22.1
-    ignoreDifferences:
-      - jsonPointers:
-          - /imagePullSecrets
-        kind: ServiceAccount
-    syncOptions:
-      - ServerSideApply=true
-    parameters:
-      global.alertmanager.host: "admin.{{.Values.projectValues.rootDomain}}"
-      global.prometheus.host: "admin.{{.Values.projectValues.rootDomain}}"
-      global.grafana.host: "admin.{{.Values.projectValues.rootDomain}}"
-      prometheusStack.grafana.adminPassword: "hgsp21addf"
