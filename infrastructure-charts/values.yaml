@@ -41,7 +41,7 @@ charts:
   akhq:
     namespace: kafka
     repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
-    targetRevision: "forward-auth"
+    targetRevision: "main"
     path: "local-charts/akhq"
   # Override values with local values file
   iits-admin-dashboard:
