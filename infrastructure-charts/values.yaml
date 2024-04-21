@@ -23,6 +23,11 @@ charts:
     targetRevision: 0.1.0
     parameters:
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
+
+  elastic-stack:
+    namespace: monitoring
+    targetRevision: "7.17.3-route-bugfix"
+  
   kafka:
     namespace: kafka
     targetRevision: 22.1.6
