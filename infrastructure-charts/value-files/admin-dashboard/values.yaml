@@ -8,7 +8,7 @@ ingress:
 defaultDashboard:
   tiles:
     kibana:
-      enabled: "false"
+      enabled: "true"
     grafana:
       enabled: "false"
     prometheus:
