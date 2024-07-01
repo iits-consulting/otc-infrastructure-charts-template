@@ -23,6 +23,13 @@ charts:
     targetRevision: 0.1.0
     parameters:
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
+  elasticsearch:
+    namespace: monitoring
+    preventDelete: false
+    targetRevision: "8.7.0"
+    parameters:
+      ingress.host: "admin.{{.Values.projectValues.rootDomain}}"
+      backup.enabled: "false"
   kafka:
     namespace: kafka
     targetRevision: 22.1.6
