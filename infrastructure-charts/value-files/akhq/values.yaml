@@ -1,0 +1,36 @@
+ingress:
+  enabled: true
+  ingressClassName: "traefik"
+  paths:
+    - /akhq
+  hosts:
+    - "admin.{{.Values.projectValues.rootDomain}}"
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: routing-oidc-forward-auth@kubernetescrd
+networkPolicy:
+  enabled: false
+configuration:
+  akhq:
+    connections:
+      kafka:
+        properties:
+          bootstrap.servers: "kafka:9092"
+      bitnami-kafka:
+        properties:
+          bootstrap.servers: "bitnami-kafka.bitnami-kafka:9092"
+    server:
+      access-log:
+        enabled: true
+        name: org.akhq.log.access
+  micronaut:
+    server:
+      netty:
+        max-initial-line-length: 16384
+        max-header-size: 32768
+      context-path: "/akhq"
+livenessProbe:
+  prefix: "/akhq"
+readinessProbe:
+  prefix: "/akhq"

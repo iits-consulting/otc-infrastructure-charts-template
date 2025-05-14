@@ -7,8 +7,8 @@ ingress:
     traefik.ingress.kubernetes.io/router.middlewares: routing-oidc-forward-auth@kubernetescrd
 defaultDashboard:
   tiles:
-    kibana:
-      enabled: "false"
+    argocd:
+      href: "argocd"
     grafana:
       enabled: "false"
     prometheus:

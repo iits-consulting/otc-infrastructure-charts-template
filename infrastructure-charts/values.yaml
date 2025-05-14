@@ -13,41 +13,38 @@ global:
       ingress.host: "admin.{{.Values.projectValues.rootDomain}}"
       ingress.rootDomain: "{{.Values.projectValues.rootDomain}}"
 charts:
-  argocd-config:
-    namespace: argocd
-    targetRevision: 0.7.0
-    annotations:
-      argocd.argoproj.io/sync-wave: "-20"
-  basic-auth-forward-auth:
+  # Local chart for development purposes
+  basic-auth:
     namespace: routing
-    targetRevision: 0.1.0
+    repoURL: "https://github.com/Ninja243/infra-template.git" # "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
+    targetRevision: "main"
+    path: "local-charts/basic-auth"
     parameters:
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
+  iits-admin-dashboard:
+    namespace: admin
+    targetRevision: 1.7.1
+    # values files needs to be inside this chart
+    valueFile: "value-files/admin-dashboard/values.yaml"
+
   kafka:
     namespace: kafka
     targetRevision: 22.1.6
     parameters:
       "kafka.replicaCount": "1"
-  # Remote chart from public helm repo
-  #  bitnami-kafka:
-  #    namespace: bitnami-kafka # Which namespace should the service be deployed
-  #    repoURL: "https://charts.bitnami.com/bitnami" # Helm repo URL by default it takes the helm repo URL from line 11
-  #    targetRevision: 22.1.5
-  #    overrideChartName: kafka # You can override the chart name
-  #    disableAutoSync: false # If set to true the sync will not happen automatically, you need to do it manually over the UI
-  #    parameters:
-  #      "kafka.replicaCount": "1"
-  # Local chart for development purposes
+#   Remote chart from public helm repo
+#  bitnami-kafka:
+#    namespace: bitnami-kafka # Which namespace should the service be deployed
+#    repoURL: "https://charts.bitnami.com/bitnami" # Helm repo URL by default it takes the helm repo URL from line 11
+#    targetRevision: 32.2.4
+#    overrideChartName: kafka # You can override the chart name
+#    disableAutoSync: false # If set to true the sync will not happen automatically, you need to do it manually over the UI
+#    parameters:
+#      "controller.replicaCount": "1"
+#      "listeners.client.protocol": "PLAINTEXT"
   akhq:
     namespace: kafka
-    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
-    targetRevision: "main"
-    path: "local-charts/akhq"
+    repoURL: "https://akhq.io"
+    targetRevision: 0.25.1
+    valueFile: "value-files/akhq/values.yaml"
   # Override values with local values file
-  iits-admin-dashboard:
-    namespace: admin
-    targetRevision: 1.5.0
-    # values files needs to be inside this chart
-    valueFile: "value-files/admin-dashboard/values.yaml"
-    parameters:
-      deployment.replicaCount: "2"

@@ -48,12 +48,11 @@ In this example we will install an elastic stack (kibana/elasticsearch/filebeat)
 * Open _infrastructure-charts/values.yaml_
 * Add a new service like this:
   ```yaml
-  elasticsearch:
+  elastic-operator:
     namespace: monitoring
-    targetRevision: 8.7.0
+    targetRevision: 8.18.1
     parameters:
-      ingress.host: "admin.{{.Values.projectValues.rootDomain}}"
-      backup.enabled: "false"
+      ingress.kibana.host: "admin.{{.Values.projectValues.rootDomain}}"
   ```
 You need to commit and push this change now. Argo detects the changes and applies them after around 2-3 minutes.
 
@@ -81,7 +80,7 @@ You have 3 ways of changing the values of a chart
    ```yaml
    iits-admin-dashboard:
       namespace: admin
-      targetRevision: 1.5.0
+      targetRevision: 1.7.1
       # values files needs to be inside this chart
       valueFile: "value-files/admin-dashboard/values.yaml"
    ```
