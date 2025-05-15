@@ -16,7 +16,7 @@ charts:
   # Local chart for development purposes
   basic-auth:
     namespace: routing
-    repoURL: "https://github.com/Ninja243/infra-template.git" # "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
+    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git" # Replace this with yours!
     targetRevision: "main"
     path: "local-charts/basic-auth"
     parameters:
