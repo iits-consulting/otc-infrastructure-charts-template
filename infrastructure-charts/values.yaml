@@ -21,11 +21,11 @@ charts:
     path: "local-charts/basic-auth"
     parameters:
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
-  iits-admin-dashboard:
-    namespace: admin
-    targetRevision: 1.7.1
-    # values files needs to be inside this chart
-    valueFile: "value-files/admin-dashboard/values.yaml"
+    kumoops-admin-dashboard:
+      namespace: "admin"
+      path: "local-charts/kumoops-admin-dashboard"
+      targetRevision: "main"
+      valueFile: "value-files/kumoops-admin-dashboard/values.yaml"
 
   kafka:
     namespace: kafka

@@ -1,0 +1,53 @@
+deployment:
+  securityContext:
+    runAsUser: 1001
+ingress:
+  host: "admin.{{.Values.projectValues.rootDomain}}"
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: routing-oidc-forward-auth@kubernetescrd
+
+defaultDashboard:
+  title: "KumoOps Admin Page"
+  userinfoUrl: "https://{{ .Values.projectValues.authDomain }}/realms/infrastructure/protocol/openid-connect/userinfo"
+  logoutUrl: "https://{{ .Values.projectValues.authDomain }}/realms/infrastructure/protocol/openid-connect/logout"
+  context: "{{ .Values.projectValues.context | upper }}"
+  tiles:
+    # Disable tiles not used in this deployment
+    portal:
+      enabled: true
+    support:
+      enabled: true
+    shop:
+      enabled: true
+    gitlab:
+      enabled: true
+    harbor:
+      enabled: true
+    sonarqube:
+      enabled: true
+    trivy:
+      enabled: true
+    homeport:
+      enabled: true
+    n8n:
+      enabled: true
+    akhq:
+      enabled: true
+    elasticsearch:
+      enabled: true
+    docs:
+      enabled: true
+    # Override URLs for this deployment
+    keycloak:
+      href: "https://{{ .Values.projectValues.authDomain }}/admin/infrastructure/console/"
+    logout:
+      href: "https://{{ .Values.projectValues.authDomain }}/realms/infrastructure/protocol/openid-connect/logout"
+    vault:
+      href: "https://{{ .Values.projectValues.vaultDomain }}/ui/vault/auth?with=keycloak/"
+    otc:
+      enabled: true
+      href: "{{ .Values.projectValues.otcSsoUrl }}"
+      imgSrc: "https://iits-consulting.de/wp-content/uploads/2026/01/otc-logo.svg"
+      imgAlt: "T Cloud Public"
+      category: "Cloud"
+      description: "T Cloud Public console (SSO via Keycloak)"
