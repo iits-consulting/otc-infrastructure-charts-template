@@ -21,9 +21,11 @@ charts:
     path: "local-charts/basic-auth"
     parameters:
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
-  iits-admin-dashboard:
+  kumoops-admin-dashboard:
     namespace: admin
-    targetRevision: 1.7.1
+    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git" # Replace this with yours!
+    targetRevision: "main"
+    path: "local-charts/kumoops-admin-dashboard"
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"
 

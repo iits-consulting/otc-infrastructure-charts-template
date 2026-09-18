@@ -103,9 +103,9 @@ There are three ways to point an entry at a chart:
 
 | Source | What you set | Deployed like this |
 | --- | --- | --- |
-| The global helm registry, configured under `global.helm.repoURL` (here https://charts.iits.tech/) | Nothing extra, the entry name is the chart name | _kafka_, _iits-admin-dashboard_ |
+| The global helm registry, configured under `global.helm.repoURL` (here https://charts.iits.tech/) | Nothing extra, the entry name is the chart name | _kafka_ |
 | Another helm registry | Its own `repoURL` | _akhq_, and the commented out _bitnami-kafka_ |
-| This git repository | `repoURL` of the repository plus `path` | _basic-auth_ |
+| This git repository | `repoURL` of the repository plus `path` | _basic-auth_, _kumoops-admin-dashboard_ |
 
 Now it is time to deploy a service yourself. In this example we install an elastic stack
 (kibana, elasticsearch, filebeat):
@@ -126,16 +126,27 @@ Now it is time to deploy a service yourself. In this example we install an elast
 3. Commit and push. ArgoCD detects the change and applies it after around 2 to 3 minutes
 
 After the deployment, update the admin dashboard in
-`infrastructure-charts/value-files/admin-dashboard/values.yaml` so the new tiles show up.
-The chart ships one tile per service and this repository only switches most of them off:
+`infrastructure-charts/value-files/admin-dashboard/values.yaml` so the new tile shows up.
+The chart ships one tile per service and this repository switches off everything it does
+not deploy, so remove the `kibana` entry from the disabled block, or set it to `true`:
 
-- set `defaultDashboard.tiles.elasticsearch.enabled` to `"true"`
-- the `kibana` tile is enabled by default, add an entry for it only if you want a
-  different `href`
+```yaml
+defaultDashboard:
+  tiles:
+    kibana:
+      enabled: true
+```
+
+Elasticsearch itself gets no tile, it has no ingress of its own and is reached through
+Kibana.
+
+> [!WARNING]
+> `enabled` has to be a real boolean. The string `"false"` is truthy in helm templates,
+> so a tile written as `enabled: "false"` shows up anyway.
 
 > [!TIP]
-> If you do not want to search for icons, the full tile list of the chart is here:
-> https://github.com/iits-consulting/charts/blob/main/charts/iits-admin-dashboard/values.yaml
+> If you do not want to search for icons, the full tile list is in the chart itself:
+> `local-charts/kumoops-admin-dashboard/values.yaml`
 
 ---
 
@@ -164,9 +175,11 @@ A values file looks like this:
 
 ```yaml
 charts:
-  iits-admin-dashboard:
+  kumoops-admin-dashboard:
     namespace: admin
-    targetRevision: 1.7.1
+    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
+    targetRevision: "main"
+    path: "local-charts/kumoops-admin-dashboard"
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"
 ```

@@ -98,8 +98,10 @@ The dashboard should link to it like every other service.
 <summary>Solution</summary>
 
 Add a tile in `infrastructure-charts/value-files/admin-dashboard/values.yaml`. The full
-tile list is in
-https://github.com/iits-consulting/charts/blob/main/charts/iits-admin-dashboard/values.yaml
+tile list is in the chart itself, `local-charts/kumoops-admin-dashboard/values.yaml`.
+There is no tile for a self hosted LLM, so add your own under `defaultDashboard.tiles`
+with `enabled: true` plus `href`, `imgSrc`, `imgAlt` and `category`, the chart's
+`values.schema.json` requires all four.
 
 </details>
 

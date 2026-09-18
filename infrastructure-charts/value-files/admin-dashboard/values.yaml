@@ -1,27 +1,60 @@
-deployment:
-  securityContext:
-    runAsUser: 1001
 ingress:
-  host: "admin.{{.Values.projectValues.stageDomain}}"
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: routing-oidc-forward-auth@kubernetescrd
+
+# The chart ships a tile for every service we usually run. This blueprint only deploys a
+# few of them, so everything else is switched off here. Flip a tile back on once you
+# actually deployed the service behind it, otherwise the dashboard links to nothing.
+#
+# On, because these are really reachable under admin.<your-domain>:
+#   argocd            /argocd      installed by OpenTofu (otc-terraform-template)
+#   traefikDashboard  /dashboard   installed by OpenTofu
+#   kyverno           /policies    installed by OpenTofu (policy-reporter UI)
+#   akhq              /akhq/ui/    installed from this repository
+#
+# enabled has to be a real boolean. The string "false" is truthy in helm templates and
+# would show the tile anyway.
 defaultDashboard:
   tiles:
     argocd:
       href: "argocd"
+
+    # Not deployed by this blueprint
+    kibana:
+      enabled: false
     grafana:
-      enabled: "false"
+      enabled: false
     prometheus:
-      enabled: "false"
-    elasticsearch:
-      enabled: "false"
-    vault:
-      enabled: "false"
-    otc:
-      enabled: "false"
+      enabled: false
     alertManager:
-      enabled: "false"
-    logout:
-      enabled: "false"
+      enabled: false
+    vault:
+      enabled: false
     keycloak:
-      enabled: "false"
+      enabled: false
+    sonarqube:
+      enabled: false
+    trivy:
+      enabled: false
+    harbor:
+      enabled: false
+    gitlab:
+      enabled: false
+    n8n:
+      enabled: false
+    otc:
+      enabled: false
+    # Authentication here is basic-auth, not OIDC, so there is no /logout endpoint
+    logout:
+      enabled: false
+    # KumoOps links, they point at a KumoOps tenant which this blueprint does not have
+    portal:
+      enabled: false
+    support:
+      enabled: false
+    shop:
+      enabled: false
+    docs:
+      enabled: false
+    homeport:
+      enabled: false
