@@ -64,11 +64,15 @@ spec:
 
   {{- if $chartValues.repoURL }}
     repoURL: {{ $chartValues.repoURL }}
+  {{- else if $chartValues.path }}
+    repoURL: {{ required "global.git.repoURL is not set, OpenTofu normally hands it over from TF_VAR_argocd_repo_url" ($.Values.global.git).repoURL }}
   {{- else}}
     repoURL: {{ $.Values.global.helm.repoURL }}
   {{- end}}
     {{- if $chartValues.targetRevision }}
     targetRevision: {{ $chartValues.targetRevision }}
+    {{- else if $chartValues.path }}
+    targetRevision: {{ ($.Values.global.git).targetRevision | default "main" }}
     {{- else if $.Values.global.helm.targetRevision }}
     targetRevision: {{ $.Values.global.helm.targetRevision }}
     {{- end}}

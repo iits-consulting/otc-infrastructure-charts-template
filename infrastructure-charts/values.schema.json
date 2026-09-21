@@ -11,6 +11,20 @@
       "type": "object",
       "description": "This section holds properties that apply globally across the entire schema.",
       "properties": {
+        "git": {
+          "type": "object",
+          "description": "This git repository, handed over by OpenTofu. Used by every chart entry that sets a path instead of pulling from a helm registry.",
+          "properties": {
+            "repoURL": {
+              "type": "string",
+              "description": "URL of this git repository (your fork)."
+            },
+            "targetRevision": {
+              "type": "string",
+              "description": "The branch or tag of this git repository that should be deployed (default main)."
+            }
+          }
+        },
         "helm": {
           "type": "object",
           "description": "This object holds the properties related to the Helm, a package manager for Kubernetes.",

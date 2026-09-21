@@ -16,15 +16,11 @@ charts:
   # Local chart for development purposes
   basic-auth:
     namespace: routing
-    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git" # Replace this with yours!
-    targetRevision: "main"
     path: "local-charts/basic-auth"
     parameters:
       credentials.password: "{{.Values.projectValues.basicAuthPassword}}"
   kumoops-admin-dashboard:
     namespace: admin
-    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git" # Replace this with yours!
-    targetRevision: "main"
     path: "local-charts/kumoops-admin-dashboard"
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"

@@ -20,15 +20,13 @@ on the GPU node plus Open WebUI in front of it. Make ArgoCD deploy it.
 <summary>Solution</summary>
 
 Add an entry under `charts:` in `infrastructure-charts/values.yaml`. It is a local chart,
-so it needs `repoURL` and `path`, like _basic-auth_:
+so it only needs a `path`, like _basic-auth_. Repo and branch come from `global.git`:
 
 ```yaml
 charts:
   # ... the entries which are already there
   gpu-llm:
     namespace: ai
-    repoURL: "https://github.com/YOUR-ORG/YOUR-FORK.git" # your fork, same as basic-auth
-    targetRevision: "main"
     path: "local-charts/gpu-llm"
 ```
 
@@ -75,8 +73,6 @@ Serve a different model. Do it the GitOps way, no `kubectl edit`.
 ```yaml
   gpu-llm:
     namespace: ai
-    repoURL: "https://github.com/YOUR-ORG/YOUR-FORK.git"
-    targetRevision: "main"
     path: "local-charts/gpu-llm"
     parameters:
       model: "llama3.2:3b"
