@@ -1,0 +1,56 @@
+# Test file with intentionally invalid values to demonstrate validation
+
+defaultDashboard:
+  title: "Test Dashboard"
+  logoSrc: "https://example.com/logo.png"
+  logoAlt: "Test Logo"
+
+  tiles:
+    # Valid tile
+    validTile:
+      enabled: true
+      href: "https://example.com"
+      imgSrc: "https://example.com/img.png"
+      imgAlt: "Valid Tile"
+      category: "Test"
+      description: "This tile is valid"
+
+    # Invalid tile - missing href
+    invalidTile1:
+      enabled: true
+      # href: "missing"  # <-- This is missing!
+      imgSrc: "https://example.com/img.png"
+      imgAlt: "Invalid Tile 1"
+      category: "Test"
+
+    # Invalid tile - missing imgSrc
+    invalidTile2:
+      enabled: true
+      href: "https://example.com"
+      # imgSrc: "missing"  # <-- This is missing!
+      imgAlt: "Invalid Tile 2"
+      category: "Test"
+
+    # Invalid tile - missing imgAlt
+    invalidTile3:
+      enabled: true
+      href: "https://example.com"
+      imgSrc: "https://example.com/img.png"
+      # imgAlt: "missing"  # <-- This is missing!
+      category: "Test"
+
+    # Invalid tile - missing category
+    invalidTile4:
+      enabled: true
+      href: "https://example.com"
+      imgSrc: "https://example.com/img.png"
+      imgAlt: "Invalid Tile 4"
+      # category: "missing"  # <-- This is missing!
+
+    # Disabled tile with missing fields (should be ignored)
+    disabledInvalidTile:
+      enabled: false
+      # Missing all fields, but that's OK because it's disabled
+
+ingress:
+  enabled: false

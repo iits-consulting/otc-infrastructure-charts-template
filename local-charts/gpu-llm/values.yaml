@@ -1,0 +1,26 @@
+# -- Model Ollama pulls on first start. Full list at https://ollama.com/library
+model: qwen2.5:3b
+# -- How long a model stays loaded in VRAM after the last request.
+keepAlive: 1h
+
+images:
+  ollama: ollama/ollama:0.34.2
+  webui: ghcr.io/open-webui/open-webui:main
+
+storage:
+  # -- Ollama model store, so a restart does not download the model again.
+  modelCache: 50Gi
+  webui: 10Gi
+
+# -- The GPU node pool carries this taint, see gpu_node_pool.tf in the terraform template.
+tolerations:
+  - key: gpu-node
+    operator: Equal
+    value: "true"
+    effect: NoSchedule
+
+ingress:
+  # -- Injected by infrastructure-charts via global.helm.parameters.
+  stageDomain: ""
+  # -- Subdomain Open WebUI is published under.
+  subdomain: ai

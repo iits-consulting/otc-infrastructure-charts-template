@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gpu-llm
+version: 0.1.0
+description: |
+  Workshop bonus chart. Runs vLLM on the GPU node pool and puts Open WebUI in front of it.
+  vLLM speaks the OpenAI API, so any OpenAI client works against it.
