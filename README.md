@@ -71,8 +71,8 @@ So the loop is always the same: edit `values.yaml`, commit, push, wait 2 to 3 mi
    your fork
 2. Set up the infrastructure according to the README within
    [this Github Template](https://github.com/iits-consulting/otc-terraform-template)
-3. Replace the `repoURL` inside `infrastructure-charts/values.yaml` with the URL of your
-   fork, it is marked with `# Replace this with yours!`
+3. Nothing to replace inside this repository, OpenTofu hands the URL of your fork
+   (`TF_VAR_argocd_repo_url`) over to ArgoCD as `global.git.repoURL`
 
 ---
 
@@ -105,7 +105,7 @@ There are three ways to point an entry at a chart:
 | --- | --- | --- |
 | The global helm registry, configured under `global.helm.repoURL` (here https://charts.iits.tech/) | Nothing extra, the entry name is the chart name | _kafka_ |
 | Another helm registry | Its own `repoURL` | _akhq_, and the commented out _bitnami-kafka_ |
-| This git repository | `repoURL` of the repository plus `path` | _basic-auth_, _kumoops-admin-dashboard_ |
+| This git repository | Only `path`, repo and branch come from `global.git`, which OpenTofu hands over | _basic-auth_, _kumoops-admin-dashboard_ |
 
 Now it is time to deploy a service yourself. In this example we install an elastic stack
 (kibana, elasticsearch, filebeat):
@@ -177,8 +177,6 @@ A values file looks like this:
 charts:
   kumoops-admin-dashboard:
     namespace: admin
-    repoURL: "https://github.com/iits-consulting/otc-infrastructure-charts-template.git"
-    targetRevision: "main"
     path: "local-charts/kumoops-admin-dashboard"
     # values files needs to be inside this chart
     valueFile: "value-files/admin-dashboard/values.yaml"
